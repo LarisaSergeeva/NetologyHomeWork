@@ -3,7 +3,6 @@
 
 
 def create_cook_book(filename):
-    from pprint import pprint
     with open(filename, 'r', encoding="utf-8") as file:
         my_file = file.readlines()
         number = len(my_file)
@@ -25,7 +24,6 @@ def create_cook_book(filename):
             cook_book[my_dish] = ingredients_list
             file.readline()
             numbers_of_str += 1
-        #pprint(cook_book)
         print('Книга рецептов успешно создана.')
         return cook_book
 
@@ -59,6 +57,7 @@ def get_shop_list_by_dishes(dish_list, person):
                         ingredient_quantity = {'measure': dish_recipe[elem]['measure'], 'quantity': quantity}
                         shop_list_by_dishes[my_ingredient] = ingredient_quantity
     print('Список покупок: ', shop_list_by_dishes)
+    return shop_list_by_dishes
 
 
 dishes_list = input('Введите список блюд через запятую: ')
@@ -71,7 +70,7 @@ get_shop_list_by_dishes(dishes, person_count)
 
 def merging_files(file_list):
     filename_dict = {}
-    text_dict ={}
+    text_dict = {}
     for txt_file in file_list:
         with open(txt_file, 'r', encoding="utf-8") as f:
             text_str_list = f.readlines()
@@ -80,7 +79,6 @@ def merging_files(file_list):
             text_dict[txt_file] = text_str_list
     filename_list_tuple = sorted(filename_dict.items())
     for elem in filename_list_tuple:
-        print((elem[0]))
         with open('total_file.txt', 'a', encoding='utf-8') as f:
             f.write(elem[1]+'\n')
             f.write(str(elem[0])+'\n')
