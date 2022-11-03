@@ -18,12 +18,12 @@ class Lecturer(Mentor):
         self.grades = {}
 
     def average_grade_lec(self):
-        sum_average_grade_ = 0
-        for k, v in self.grades.items():
-            sum_grades = sum(self.grades[k])
-            average_grade_ = round(sum_grades/len(v), 2)
-            sum_average_grade_ += average_grade_
-        average_grade_lecture = round(sum_average_grade_ / len(self.grades), 2)
+        sum_grades = 0
+        number = 0
+        for v in self.grades.values():
+            sum_grades += sum(v)
+            number += len(v)
+        average_grade_lecture = round(sum_grades / number, 2)
         return average_grade_lecture
 
     def __eq__(self, other):
@@ -105,12 +105,12 @@ class Student:
                  '( 2) Студент не изучал/ не изучает этот курс.')
 
     def average_grade_hw(self):
-        sum_average_grade_ = 0
-        for k, v in self.grades.items():
-            sum_grades_hw = sum(self.grades[k])
-            average_grade_ = round(sum_grades_hw / len(v), 2)
-            sum_average_grade_ += average_grade_
-        average_grade_hw_ = round(sum_average_grade_ / len(self.grades), 2)
+        sum_grades = 0
+        number =0
+        for v in self.grades.values():
+            sum_grades += sum(v)
+            number += len(v)
+        average_grade_hw_ = round(sum_grades/number, 2)
         return average_grade_hw_
 
     def __str__(self):
