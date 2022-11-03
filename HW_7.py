@@ -17,27 +17,56 @@ class Lecturer(Mentor):
         super().__init__(name, surname)
         self.grades = {}
 
-    def average_marks(self):
-        average_grades_lectures_dict = {}
+    def average_grade_lec(self):
+        sum_average_grade_ = 0
         for k, v in self.grades.items():
             sum_grades = sum(self.grades[k])
-            average_grade_ = round(sum_grades/ len(v), 2)
-            average_grades_lectures_dict[k] = average_grade_
-        return average_grades_lectures_dict
+            average_grade_ = round(sum_grades/len(v), 2)
+            sum_average_grade_ += average_grade_
+        average_grade_lecture = round(sum_average_grade_ / len(self.grades), 2)
+        return average_grade_lecture
 
+    def __eq__(self, other):
+        if isinstance(other, Lecturer):
+            return self.average_grade_lec() == other.average_grade_lec()
+        else:
+            return f"Ошибка. Сравниваются объекты разного класса."
+
+    def __ne__(self, other):
+        if isinstance(other, Lecturer):
+            if self.__eq__(other) is False:
+                return True
+        else:
+            return f"Ошибка. Сравниваются объекты разного класса."
 
     def __le__(self, other):
         if isinstance(other, Lecturer):
-            for k_s, v_s in self.average_marks().items():
-                for k_O, v_o in other.average_marks().items():
-                    if k_O == k_s:
-                        return v_s <= v_o
+            return self.average_grade_lec() <= other.average_grade_lec()
+        else:
+            return f"Ошибка. Сравниваются объекты разного класса."
+
+    def __lt__(self, other):
+        if isinstance(other, Lecturer):
+            return self.average_grade_lec() < other.average_grade_lec()
+        else:
+            return f"Ошибка. Сравниваются объекты разного класса."
+
+    def __ge__(self, other):
+        if isinstance(other, Lecturer):
+            if self.__lt__(other) is False:
+                return True
+        else:
+            return f"Ошибка. Сравниваются объекты разного класса."
+
+    def __gt__(self, other):
+        if isinstance(other, Lecturer):
+            if self.__le__(other) is False:
+                return True
         else:
             return f"Ошибка. Сравниваются объекты разного класса."
 
     def __str__(self):
-        self.average_marks()
-        return f"{super().__str__()}\nСредняя оценка за лекции:{self.average_marks()}"
+        return f"{super().__str__()}\nСредняя оценка за лекции:{self.average_grade_lec()}"
 
 
 class Reviewer(Mentor):
@@ -75,26 +104,55 @@ class Student:
                 ('Ошибка. Проверьте название курса. 1) Лектор не читает этот курс.)'
                  '( 2) Студент не изучал/ не изучает этот курс.')
 
-    def average_grades_hw(self):
-        average_grades_hw_dict = {}
+    def average_grade_hw(self):
+        sum_average_grade_ = 0
         for k, v in self.grades.items():
             sum_grades_hw = sum(self.grades[k])
             average_grade_ = round(sum_grades_hw / len(v), 2)
-            average_grades_hw_dict[k] = average_grade_
-        return average_grades_hw_dict
+            sum_average_grade_ += average_grade_
+        average_grade_hw_ = round(sum_average_grade_ / len(self.grades), 2)
+        return average_grade_hw_
 
     def __str__(self):
         return f"Имя студента: {self.name}.\nФамилия студента: {self.surname}\n" \
-               f"Средняя оценка за домашние задания: {self.average_grades_hw()}\n" \
+               f"Средняя оценка за домашние задания: {self.average_grade_hw()}\n" \
                f"Курсы в процессе обучения: {self.courses_in_progress}\n" \
                f"Завершённые курсы:{self.finished_courses}"
 
+    def __eq__(self, other):
+        if isinstance(other, Student):
+            return self.average_grade_hw() == other.average_grade_hw()
+        else:
+            return f"Ошибка. Сравниваются объекты разного класса."
+
+    def __ne__(self, other):
+        if isinstance(other, Student):
+            if self.__eq__(other) is False:
+                return True
+        else:
+            return f"Ошибка. Сравниваются объекты разного класса."
+
     def __le__(self, other):
         if isinstance(other, Student):
-            for k_s, v_s in self.average_grades_hw().items():
-                for k_O, v_o in other.average_grades_hw().items():
-                    if k_O == k_s:
-                        return v_s <= v_o
+            return self.average_grade_hw() <= other.average_grade_hw()
+        else:
+            return f"Ошибка. Сравниваются объекты разного класса."
+
+    def __lt__(self, other):
+        if isinstance(other, Student):
+            return self.average_grade_hw() < other.average_grade_hw()
+        else:
+            return f"Ошибка. Сравниваются объекты разного класса."
+
+    def __ge__(self, other):
+        if isinstance(other, Student):
+            return self.average_grade_hw() >= other.average_grade_hw()
+        else:
+            return f"Ошибка. Сравниваются объекты разного класса."
+
+    def __gt__(self, other):
+        if isinstance(other, Student):
+            return self.average_grade_hw() > other.average_grade_hw()
         else:
             return f"Ошибка. Сравниваются объекты разного класса."
 
@@ -109,23 +167,22 @@ graduate_student_2 = Reviewer('Игорь', "Сверчков")
 graduate_student_2.courses_attached = ["Python"]
 student_1.finished_courses += ['Git']
 student_1.courses_in_progress += ['Python', 'OOP']
-
+# Оценки первого студента.
 student_1.grades['Git'] = [10, 10, 10, 10, 10]
-# Оценки студента 1 за питон.
 student_1.grades['Python'] = [10, 10]
 graduate_student_2.rate_hw(student_1, 'Python', 5)
-# Оценки второго студента за питон.
+student_1.grades['OOP'] = [8, 7]
+# Оценки второго студента.
 student_2.grades['Python'] = [8, 10, 9, 6, 9]
 
-student_1.grades['OOP'] = [8, 7]
 student_2.finished_courses += ['Git']
 student_2.courses_in_progress += ['Python', 'OOP']
 
 up_mentor.add_courses('Геометрия')
 student_1.add_courses('Геометрия')
 mentor_1.courses_attached += ['Git', 'Python', 'OOP', 'Геометрия']
-print('Первый студент средняя оценка:', student_1.average_grades_hw())
-print('Второй студент средняя оценка:', student_2.average_grades_hw())
+print('Первый студент средняя оценка:', student_1.average_grade_hw())
+print('Второй студент средняя оценка:', student_2.average_grade_hw())
 
 mentor_2.courses_attached += ['Python', 'Анализ данных']
 graduate_student_1.add_courses(['Python', 'OOP'])
@@ -143,12 +200,15 @@ print(student_2)
 print(mentor_1)
 print(mentor_2)
 print(graduate_student_1)
-print(student_1 <= mentor_2)
+print(student_1 != student_2)
+print(student_2 <= student_1)
+print(student_1 > student_2)
 print(mentor_1 <= mentor_2)
+print(mentor_1 > mentor_2)
+
+
 def average_grade_hw(student_list, cours):
-    average_grade_hw_ = 0
     average_list = list()
-    sum_average = 0
     for student in students_list:
         if isinstance(student, Student) and cours in student.grades:
             sum_grades = sum(student.grades[cours])
@@ -161,9 +221,7 @@ def average_grade_hw(student_list, cours):
 
 
 def average_grade_lectures(mentor_list, cours):
-    average_grade_lecture_ = 0
     average_list = list()
-    sum_average = 0
     for mentor in mentor_list:
         if isinstance(mentor, Lecturer) and cours in mentor.grades:
             sum_grades = sum(mentor.grades[cours])
