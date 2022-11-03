@@ -28,12 +28,12 @@ class Lecturer(Mentor):
 
     def __le__(self, other):
         if isinstance(other, Lecturer):
-            for k_s in self.grades.items():
-                for k_O in other.grades.items():
+            for k_s, v_s in self.average_marks().items():
+                for k_O, v_o in other.average_marks().items():
                     if k_O == k_s:
-                        return self.average_marks() <= other.average_marks()
+                        return v_s <= v_o
         else:
-                return f"Ошибка. Сравниваются объекты разного класса."
+            return f"Ошибка. Сравниваются объекты разного класса."
 
     def __str__(self):
         self.average_marks()
@@ -91,15 +91,14 @@ class Student:
 
     def __le__(self, other):
         if isinstance(other, Student):
-            self.average_grades = self.average_grades_hw()
-            other.average_grades = other.average_grades()
-            print(other.average_grades)
-            for k_s, v_s in self.average_grades.items():
-                for k_O, v_o in other.average_grades.items():
+            self.average_grades_dict = self.average_grades_hw()
+            other.average_grades_dict = other.average_grades_hw()
+            for k_s, v_s in self.average_grades_dict.items():
+                for k_O, v_o in other.average_grades_dict.items():
                     if k_O == k_s:
-                        return  v_s <= v_o
+                        return v_s <= v_o
         else:
-            return f"Ошибка."
+            return f"Ошибка. Сравниваются объекты разного класса."
 
 up_mentor = Mentor('Ужас', "Великий")
 up_mentor = Mentor('Великан', "Ужасный")
@@ -131,7 +130,7 @@ print('Первый студент средняя оценка:', student_1.aver
 print('Второй студент средняя оценка:', student_2.average_grades_hw())
 
 mentor_2.courses_attached += ['Python', 'Анализ данных']
-graduate_student_1.courses_attached = ['Python', 'OOP']
+graduate_student_1.add_courses(['Python', 'OOP'])
 
 # Оценки лектора 1 за питон.
 mentor_1.grades['Python'] = [10, 10, 7]
@@ -145,8 +144,9 @@ print(student_1)
 print(student_2)
 print(mentor_1)
 print(mentor_2)
-
-
+print(graduate_student_1)
+print(student_1 <= mentor_2)
+print(mentor_1 <= mentor_2)
 def average_grade_hw(student_list, cours):
     average_grade_hw_ = 0
     average_list = list()
