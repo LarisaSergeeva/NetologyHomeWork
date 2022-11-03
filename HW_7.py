@@ -91,10 +91,8 @@ class Student:
 
     def __le__(self, other):
         if isinstance(other, Student):
-            self.average_grades_dict = self.average_grades_hw()
-            other.average_grades_dict = other.average_grades_hw()
-            for k_s, v_s in self.average_grades_dict.items():
-                for k_O, v_o in other.average_grades_dict.items():
+            for k_s, v_s in self.average_grades_hw().items():
+                for k_O, v_o in other.average_grades_hw().items():
                     if k_O == k_s:
                         return v_s <= v_o
         else:
