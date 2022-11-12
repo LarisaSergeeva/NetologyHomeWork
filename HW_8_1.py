@@ -1,6 +1,7 @@
 import requests
 from pprint import pprint
 
+
 def connect_url(main_url):
     response = requests.get(main_url)
     if response.status_code == 200:
