@@ -1,6 +1,6 @@
 import requests
 from pprint import pprint
-from Token import token
+from TOKEN import token
 
 
 class YaUploader:
@@ -13,7 +13,7 @@ class YaUploader:
 
     @property
     def header(self):
-        return {'Accept': 'application/json', 'Authorization': f"OAuth{self.token}"}
+        return {'Accept': 'application/json', 'Authorization': f"OAuth {self.token}"}
 
     def get_files_list(self):
         print(self.header)
